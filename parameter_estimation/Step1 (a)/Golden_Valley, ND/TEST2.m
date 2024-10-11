@@ -49,7 +49,7 @@ v2=[vim;vv2(1:end-14,:)];
     cv=[find(vcc1(ind(1)+1:end)~=0,1,'first')+ind(1) find(vcc2(ind(2)+1:end)~=0,1,'first')+ind(2)];
     %cv(1) and cv(2) are the same for both doses
     
-    vaccines=[[zeros(cv(1),1); movmean(vcc1(cv(1)+1:end),7)] [zeros(cv(2),1); movmean(vcc2(cv(2)+1:end),7)]];
+       vaccines=[[zeros(cv(1),1); vcc1(cv(1):end)] [zeros(cv(2),1); vcc2(cv(2):end)]];
     vacc_cum=[vcc1(cv(1)) vcc2(cv(2))];
 
     times=[0 vi cv(1)+1 length(cases)];
