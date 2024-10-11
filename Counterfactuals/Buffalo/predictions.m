@@ -53,11 +53,12 @@ v2=v2(:,cc);
 
 
 
+ 
     %vaccine first dose availbility: depends on states SD:12/15/2020 ND: 12/14/2020
-   if ismember(k,1:3) %SD; k=1:6
-        vi=264-st_days(k);  %264 is the day of vaccine availbility out of original time frame 
+    if ismember(k,1:6) %SD; k=1:6
+        vi=(264+14)-st_days(k);  %264 is the day of vaccine availbility out of original time frame 
    else
-        vi=263-st_days(k);
+        vi=(263+14)-st_days(k);
    end
 
     %vaccines=[v1(vi:end,k) v2(vi:end,k)]; %there are NaNs at the end! check with distance metrics 
@@ -68,7 +69,9 @@ v2=v2(:,cc);
     cv=[find(vcc1(ind(1)+1:end)~=0,1,'first')+ind(1) find(vcc2(ind(2)+1:end)~=0,1,'first')+ind(2)];
     %cv(1) and cv(2) are the same for both doses
     
-    vaccines=[[zeros(cv(1),1); movmean(vcc1(cv(1)+1:end),7)] [zeros(cv(2),1); movmean(vcc2(cv(2)+1:end),7)]];
+   %vaccines=[[zeros(cv(1),1); movmean(vcc1(cv(1)+1:end),7)] [zeros(cv(2),1); movmean(vcc2(cv(2)+1:end),7)]];
+    vaccines=[[zeros(cv(1),1); vcc1(cv(1):end)] [zeros(cv(2),1); vcc2(cv(2):end)]];
+
     vacc_cum=[vcc1(cv(1)) vcc2(cv(2))];
 
     times=[0 vi cv(1)+1 length(cases)];
@@ -179,32 +182,32 @@ end
 save('BUFFALO_case_paths.mat','predicted_case_paths')
 save('BUFFALO_predicted_total_deaths.mat','predicted_total_deaths')
 
-save('case_paths_2W_20.mat','case_paths_2W_20')
-save('total_deaths_2W_20.mat','total_deaths_2W_20')
+save('BUFFALO_case_paths_2W_20.mat','case_paths_2W_20')
+save('BUFFALO_total_deaths_2W_20.mat','total_deaths_2W_20')
 
-save("case_paths_2W_60.mat","case_paths_2W_60")
+save("BUFFALO_case_paths_2W_60.mat","case_paths_2W_60")
 save("total_deaths_2W_60.mat","total_deaths_2W_60")
 
-save("case_paths_2W_80.mat","case_paths_2W_80")
-save("total_deaths_2W_80.mat","total_deaths_2W_80")
+save("BUFFALO_case_paths_2W_80.mat","case_paths_2W_80")
+save("BUFFALO_total_deaths_2W_80.mat","total_deaths_2W_80")
 
-save("case_paths_4W_20.mat","case_paths_4W_20")
-save("total_deaths_4W_20.mat","total_deaths_4W_20")
+save("BUFFALO_case_paths_4W_20.mat","case_paths_4W_20")
+save("BUFFALO_total_deaths_4W_20.mat","total_deaths_4W_20")
 
-save("case_paths_4W_60.mat","case_paths_4W_60")
-save("total_deaths_4W_60.mat",'total_deaths_4W_60')
+save("BUFFALO_case_paths_4W_60.mat","case_paths_4W_60")
+save("BUFFALO_total_deaths_4W_60.mat",'total_deaths_4W_60')
 
-save("case_paths_4W_80.mat","case_paths_4W_80")
-save("total_deaths_4W_80.mat","total_deaths_4W_80")
+save("BUFFALO_case_paths_4W_80.mat","case_paths_4W_80")
+save("BUFFALO_total_deaths_4W_80.mat","total_deaths_4W_80")
 
-save("case_paths_2M_20.mat","case_paths_2M_20")
-save("total_deaths_2M_20.mat","total_deaths_2M_20")
+save("BUFFALO_case_paths_2M_20.mat","case_paths_2M_20")
+save("BUFFALO_total_deaths_2M_20.mat","total_deaths_2M_20")
 
-save("case_paths_2M_60.mat","case_paths_2M_60")
-save("total_deaths_2M_60.mat","total_deaths_2M_60")
+save("BUFFALO_case_paths_2M_60.mat","case_paths_2M_60")
+save("BUFFALO_total_deaths_2M_60.mat","total_deaths_2M_60")
 
-save("case_paths_2M_80.mat","case_paths_2M_80")
-save("total_deaths_2M_80.mat","total_deaths_2M_80")
+save("BUFFALO_case_paths_2M_80.mat","case_paths_2M_80")
+save("BUFFALO_total_deaths_2M_80.mat","total_deaths_2M_80")
 
 
 
