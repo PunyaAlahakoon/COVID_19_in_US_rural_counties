@@ -37,7 +37,7 @@ par=parr(1,:);
         [~,daily_c,inci]=sample_generator_null_model2(times,par,N,count);
 
         %calculate distance metrics:
-        [dists]=distance_metrics5(daily_c,inci,cases,deaths,vaccines,vaccine_cums,times,k);
+        [dists]=distance_metrics5(daily_c,inci,cases,deaths,vaccines,vaccine_cums,times);
         
         if all(dists<=e)
                  params0=par;
