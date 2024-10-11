@@ -46,18 +46,18 @@ v2=v2(:,cc);
 
 %read the hyper parameters fro m7000 to 27000. Take every 2nd value 
 %load hyper parameters
-hbs=readtable('hb6.csv');
+hbs=readtable('hb7.csv');
 hbs=table2array(hbs);
 hbs=hbs(10001:50000,:); %burn-in 
 hbs=hbs(1:40:end,2:end); %take every 20th elemnet 
 
-hb_sigs=readtable('hb_sig6.csv');
+hb_sigs=readtable('hb_sig7.csv');
 hb_sigs=table2array(hb_sigs);
 hb_sigs=hb_sigs(10001:50000,:); %burn-in 
 hb_sigs=hb_sigs(1:40:end,2:end); %take every 2nd elemnet 
 
 
-ross=readtable('ros6.csv');
+ross=readtable('ros7.csv');
 ross=table2array(ross);
 ross=ross(10001:50000,:); %burn-in 
 ross=ross(1:40:end,2:end); %take every 2nd element0
@@ -68,7 +68,7 @@ w_smc=w_smc.w_smc;
  dim=size(y,2); %number of counties to consider 
 
 %Number of particles/ parameters sets to sample using ABC-SMC
-B=1;
+B=1000;
 
 
 
@@ -89,9 +89,9 @@ k=1; %COUNTY TO CONSIDER
     
     %vaccine first dose availbility: depends on states SD:12/15/2020 ND: 12/14/2020
    if ismember(k,1:6) %SD; k=1:6
-        vi=264-st_days(k);  %264 is the day of vaccine availbility out of original time frame 
+        vi=(264+14)-st_days(k);  %264 is the day of vaccine availbility out of original time frame. Add 14 days to account for vaccine dates  
    else
-        vi=263-st_days(k);
+        vi=(263+14)-st_days(k);
    end
 
     %vaccines=[v1(vi:end,k) v2(vi:end,k)]; %there are NaNs at the end! check with distance metrics 
@@ -101,9 +101,12 @@ k=1; %COUNTY TO CONSIDER
     ind=[find(isnan(vcc1), 1, 'last' ) find(isnan(vcc2), 1, 'last' )]; 
     cv=[find(vcc1(ind(1)+1:end)~=0,1,'first')+ind(1) find(vcc2(ind(2)+1:end)~=0,1,'first')+ind(2)];
     %cv(1) and cv(2) are the same for both doses
-    
-    vaccines=[[zeros(cv(1),1); movmean(vcc1(cv(1)+1:end),7)] [zeros(cv(2),1); movmean(vcc2(cv(2)+1:end),7)]];
+     
+    %vaccines=[[zeros(cv(1),1); movmean(vcc1(cv(1)+1:end),7)] [zeros(cv(2),1); movmean(vcc2(cv(2)+1:end),7)]];
+    vaccines=[[zeros(cv(1),1); vcc1(cv(1):end)] [zeros(cv(2),1); vcc2(cv(2):end)]];
+
     vacc_cum=[vcc1(cv(1)) vcc2(cv(2))];
+
 
     times=[0 vi cv(1)+1 length(cases)];
     %times: to when to start the dose 1, dose 2: relative to case occurance
@@ -122,7 +125,7 @@ k=1; %COUNTY TO CONSIDER
 
     params=zeros(B,np);
     ag=zeros(1,B);%set the counter 
-    rho_m=zeros(B,7);%store the distance values 
+    rho_m=zeros(B,8);%store the distance values 
     accepted_case_paths=zeros(length(cases),B);
     dose1_paths=zeros(length(cases),B);
     dose2_paths=zeros(length(cases),B);
@@ -135,14 +138,14 @@ k=1; %COUNTY TO CONSIDER
         
 
 
-   
-  %store the final values for the counties:
+     %store the final values for the counties:
 save("hie_params_MINER.mat","params");
 save('accepted_case_paths_MINER.mat',"accepted_case_paths");
 save("dose1_paths1_MINER.mat","dose1_paths");
 save("dose2_paths1_MINER.mat","dose2_paths");
 save("ag_MINER.mat","ag");
 save("rho_m_MINER.mat",'rho_m');
+
 
 
 
