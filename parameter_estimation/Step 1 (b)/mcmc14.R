@@ -116,9 +116,9 @@ for (i in 2:N) {
 
 plot(1:N,hb[,1], type = "l")
 plot(1:N,hb_sig[,1], type = "l")
+hist(hb_sig[,2])
 
-
-write.csv(hb,'hb6.csv')
-write.csv(hb_sig,'hb_sig6.csv')
-write.csv(ros,'ros6.csv')
+write.csv(hb,'hb7.csv')
+write.csv(hb_sig,'hb_sig7.csv')
+write.csv(ros,'ros7.csv')
 
